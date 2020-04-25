@@ -75,10 +75,14 @@ pre {
     overflow: auto;
 }
 
+code {
+    font-family: Inconsolata, Consolas, "DEJA VU SANS MONO", "DROID SANS MONO", Proggy, monospace;
+}
+
 blockquote {
-    border-left: .27rem lightgrey solid;
-    padding-left: .5rem;
-    margin-left: .6rem;
+    border-left: 5px lightgrey solid;
+    padding-left: 15px;
+    margin-left: 20px;
     background: #f4f4f4;
 }
 
