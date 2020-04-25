@@ -1,0 +1,11 @@
+---
+active_modules: [pygments, tags, blog]
+author: Jachin Lin
+canonical_url: https://jachinlin.github.io/leetcode
+title:  每日一 Code
+modules:
+  pygments:
+    style: tango
+github: jachinlin
+email: linjx1000+github@gmail.com
+baidu_tongji: 7972bc564f84e320d4f261fe1ada61da
