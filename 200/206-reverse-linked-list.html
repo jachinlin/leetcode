@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>反转链表 | 反转链表</title>
+    <link rel="shortcut icon" href="/leetcode/leetcode.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" media="screen">
+    <link rel="stylesheet" href="/leetcode/static/style.css" type="text/css">
+    <link href="/feed.atom" rel="alternate" title=" 反转链表" type="application/atom+xml">
+    
+    <link rel="stylesheet" href="/leetcode/static/pygments.css"  type="text/css">
+    
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?7972bc564f84e320d4f261fe1ada61da";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+
+<body>
+<div class="box">
+
+
+
+<div class="container">
+        <h1>反转链表</h1>
+
+    <p><a href="https://leetcode.com/problems/reverse-linked-list/">LeetCode 206</a></p>
+<h2>思路</h2>
+<p>思路一，利用栈先进后出特点，时间 O(n)，空间 O(n)；</p>
+<p>思路二，加一个头节点，遍历链表，将链表节点插入到头节点的下一个节点处，时间 O(n)，空间 O(1)；</p>
+<p>思路三，双指针，时间 O(n)，空间 O(1)</p>
+<h2>解答</h2>
+<p>栈</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Definition for singly-linked list.</span>
+<span class="k">class</span> <span class="nc">ListNode</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">reverseList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="n">ListNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ListNode</span><span class="p">:</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">head</span><span class="p">:</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">head</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span>
+
+        <span class="n">head</span> <span class="o">=</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">ListNode</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
+</code></pre></div>
+
+
+<p>头节点</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Definition for singly-linked list.</span>
+<span class="k">class</span> <span class="nc">ListNode</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">reverseList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="n">ListNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ListNode</span><span class="p">:</span>
+        <span class="n">dummy</span> <span class="o">=</span> <span class="n">ListNode</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">head</span><span class="p">:</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">head</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">dummy</span><span class="o">.</span><span class="n">next</span>
+            <span class="n">dummy</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">cur</span>
+        <span class="k">return</span> <span class="n">dummy</span><span class="o">.</span><span class="n">next</span>
+</code></pre></div>
+
+
+<p>双指针</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Definition for singly-linked list.</span>
+<span class="k">class</span> <span class="nc">ListNode</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">reverseList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="n">ListNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ListNode</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">head</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">head</span>
+        <span class="n">pre</span><span class="p">,</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">head</span><span class="p">,</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">pre</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">while</span> <span class="n">cur</span><span class="p">:</span>
+            <span class="n">next_</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">next</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">pre</span>
+            <span class="n">pre</span><span class="p">,</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="p">,</span> <span class="n">next_</span>
+        <span class="k">return</span> <span class="n">pre</span>
+</code></pre></div>
+
+    
+        <p class=tags>This entry was tagged
+        
+            <a href="/leetcode/tags/%E9%93%BE%E8%A1%A8/">链表</a>
+    
+
+    
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</div>
+</body>
+</html>
