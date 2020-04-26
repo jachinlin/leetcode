@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>如何实现一个 LRU Cache？ | 如何实现一个 LRU Cache？</title>
+    <link rel="shortcut icon" href="/leetcode/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" media="screen">
+    <link rel="stylesheet" href="/leetcode/static/style.css" type="text/css">
+    <link href="/feed.atom" rel="alternate" title=" 如何实现一个 LRU Cache？" type="application/atom+xml">
+    
+    <link rel="stylesheet" href="/leetcode/static/pygments.css"  type="text/css">
+    
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?7972bc564f84e320d4f261fe1ada61da";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+
+<body>
+<div class="box">
+
+
+
+<div class="container">
+        <h1>如何实现一个 LRU Cache？</h1>
+
+    <h2><a href="https://leetcode.com/problems/lru-cache/">146. LRU Cache</a></h2>
+<p>Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.</p>
+<p>get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+put(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.</p>
+<p>The cache is initialized with a positive capacity.</p>
+<p>Could you do both operations in O(1) time complexity?</p>
+<h2>思路</h2>
+<p>1、O(1) 的 get 和 set？</p>
+<p>那就只能用 <strong>哈希表</strong> 数据结构了。</p>
+<p>2、删除过期的 key? </p>
+<p>也就说，key 是 <strong>有序的</strong> （按 get/set 的时间排序），所以需要一个有序的数据结构来存储 key。满足有序的数据结构有数组、链表、搜索树、跳表等。</p>
+<p>3、删除和插入 key 也需要 O(1)？</p>
+<p>那就只有 <strong>链表</strong> 了，实现过程中发现 <strong>双向链表</strong> 更合适，因为需要用到节点的左节点指针。</p>
+<p>综上，需要 <strong>哈希表 + 双向链表</strong> 两个数据结构来实现 O(1) 的 LRU Cache。画个图直观感受下：</p>
+<p><img alt="LRU Cache" src="./img/lru-cache.jpg"></p>
+<h2>解答</h2>
+<p>小技巧，双向链表添加头尾两个 dummy 节点，可以省掉好多 if-else</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+
+<span class="k">class</span> <span class="nc">LinkedListNode</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">:</span> <span class="s1">&#39;LinkedListNode&#39;</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="p">:</span> <span class="s1">&#39;LinkedListNode&#39;</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">LRUCache</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span> <span class="o">=</span> <span class="n">capacity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tail</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tail</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tail</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_head</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">LinkedListNode</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_move_node_to_front</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">val</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span>  <span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_move_node_to_front</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_insert_node</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_move_node_to_front</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">LinkedListNode</span><span class="p">):</span>
+        <span class="n">pre</span><span class="p">,</span> <span class="n">next_</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">pre</span><span class="o">.</span><span class="n">next</span><span class="p">,</span> <span class="n">next_</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">next_</span><span class="p">,</span> <span class="n">pre</span>
+
+        <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_head</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span>
+
+    <span class="k">def</span> <span class="nf">_insert_front</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+
+        <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_head</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span>
+
+    <span class="k">def</span> <span class="nf">_delete_ex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ex_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tail</span><span class="o">.</span><span class="n">pre</span>
+        <span class="n">ex_key</span> <span class="o">=</span> <span class="n">ex_node</span><span class="o">.</span><span class="n">key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tail</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">ex_node</span><span class="o">.</span><span class="n">pre</span>
+        <span class="n">ex_node</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tail</span>
+        <span class="n">ex_node</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">ex_node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">ex_key</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_insert_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_delete_ex</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert_front</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>  
+</code></pre></div>
+
+    
+
+    
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</div>
+</body>
+</html>
