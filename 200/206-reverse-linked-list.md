@@ -4,10 +4,13 @@ author: Jachin Lin
 pub_date: 2019-08-20
 tags:
     - 链表
+difficulty: Easy
 summary: 思路一，利用栈先进后出特点；思路二，加一个头节点，遍历链表，将链表节点插入到头节点的下一个节点处；思路三，双指针。
 ---
 
-## [206. Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)
+## 描述 
+
+[206. Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)
 
 Reverse a singly linked list.
 

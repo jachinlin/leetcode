@@ -6,7 +6,9 @@ summary: 哈希表，O(1) 的 get 和 set；双向链表，有序，O(1) 的 del
 difficulty: Medium
 ---
 
-## [146. LRU Cache](https://leetcode.com/problems/lru-cache/)
+## 描述
+
+[146. LRU Cache](https://leetcode.com/problems/lru-cache/)
 
 Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
 
