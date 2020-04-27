@@ -46,8 +46,9 @@
 <h2>思路</h2>
 <p>忽略各种异常输入，只考虑有效输入。运用 <strong>递归</strong> 这种减而治之的思想，很容易得到下方这条方程：</p>
 <blockquote>
-<p><code>f(n) = f(n-1) * 10 + int(str[n])</code>，边界 <code>f(0) = int(str[0])</code>， f(n) 表示 str[0, n] (闭区间)转化后的整数</p>
+<p><code>f(n) = f(n-1) * 10 + int(str[n])</code>，边界 <code>f(0) = int(str[0])</code></p>
 </blockquote>
+<p>f(n) 表示 str[0, n] (闭区间)转化后的整数。</p>
 <h2>解答</h2>
 <div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
 
