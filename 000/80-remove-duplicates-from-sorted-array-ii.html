@@ -4,11 +4,11 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>删除排序数组中的重复元素 | 删除排序数组中的重复元素</title>
+    <title>删除排序数组中的重复元素 II | 删除排序数组中的重复元素 II</title>
     <link rel="shortcut icon" href="/leetcode/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" media="screen">
     <link rel="stylesheet" href="/leetcode/static/style.css" type="text/css">
-    <link href="/feed.atom" rel="alternate" title=" 删除排序数组中的重复元素" type="application/atom+xml">
+    <link href="/feed.atom" rel="alternate" title=" 删除排序数组中的重复元素 II" type="application/atom+xml">
     
     <link rel="stylesheet" href="/leetcode/static/pygments.css"  type="text/css">
     
@@ -31,16 +31,15 @@
 
 
 <div>
-        <h1>删除排序数组中的重复元素</h1>
+        <h1>删除排序数组中的重复元素 II</h1>
 
     <h2>描述</h2>
-<p><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/">26. Remove Duplicates from Sorted Array</a></p>
-<p>Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.</p>
+<p><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/">80. Remove Duplicates from Sorted Array II</a></p>
+<p>Given a sorted array nums, remove the duplicates in-place such that duplicates appeared at most twice and return the new length.</p>
 <p>Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.</p>
 <h2>思路</h2>
-<p>假设可以使用额外空间，解法就很简单了，使用一个新的数组，称为目标数组。
-遍历原数组，将遍历到的元素同目标数组最后一个元素进行对比，不一样就添加到目标数组末尾。</p>
-<p>其实，原数组遍历过的元素所占有的空间已经没有用处了，我们可以这些空间用作目标数组的空间，这样就不需要额外的内存空间了。目标数组直接覆盖原数组元素即可。逻辑上还是两个数组，实际上是同一片内存空间。</p>
+<p>在<a href="./26-remove-duplicates-from-sorted-array.html">删除排序数组中的重复元素</a>解法的基础上，增加一个变量表示目标数组中末尾元素已出现的次数，根据该变量的大小来判断原数组下一个元素是否为目标数组的元素。
+更取巧的做法是，<code>nums[i]</code> 直接和 <code>nums[i-2]</code> 对比，两者不同，则 <code>nums[i]</code> 为目标数组的元素。</p>
 <h2>解答</h2>
 <div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
@@ -49,9 +48,12 @@
     <span class="k">def</span> <span class="nf">removeDuplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">nums</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
-        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">nums</span><span class="p">[</span><span class="n">index</span><span class="p">]:</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">length</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">nums</span><span class="p">[</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
                 <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">nums</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>

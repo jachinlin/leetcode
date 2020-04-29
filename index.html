@@ -24,10 +24,10 @@
 </head>
 
 <body>
-<div class="box">
+<div class="container box">
 
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light py-3" aria-label="Main navigation">
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light" aria-label="Main navigation">
         <a class="navbar-brand" href="/leetcode/">每日一 Code</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -44,12 +44,22 @@
 
 
 
-<div class="container home-body">
+<div class="home-body">
     <div class="entry-wrapper">
         
         <div class="row entry-overview">
-            <div class="col-sm-4 col-3 date">2019年9月8日</div>
-            <div class="col-sm-8 col-9 detail">
+            <div class="col-sm-3 col-2 date">2019年9月18日</div>
+            <div class="col-sm-8 col-10 detail">
+                <a href="/leetcode/000/80-remove-duplicates-from-sorted-array-ii.html">删除排序数组中的重复元素 II</a>
+                
+                <span class="summary"> —— 在「删除排序数组中的重复元素」解法的基础上，增加一个变量表示目标数组中末尾元素已经出现的次数。</span>
+                
+            </div>
+        </div>
+        
+        <div class="row entry-overview">
+            <div class="col-sm-3 col-2 date">2019年9月8日</div>
+            <div class="col-sm-8 col-10 detail">
                 <a href="/leetcode/000/26-remove-duplicates-from-sorted-array.html">删除排序数组中的重复元素</a>
                 
                 <span class="summary"> —— 目标数组复用原数组空间</span>
@@ -58,8 +68,8 @@
         </div>
         
         <div class="row entry-overview">
-            <div class="col-sm-4 col-3 date">2019年9月1日</div>
-            <div class="col-sm-8 col-9 detail">
+            <div class="col-sm-3 col-2 date">2019年9月1日</div>
+            <div class="col-sm-8 col-10 detail">
                 <a href="/leetcode/000/8-string-to-integer-atoi.html">实现 atoi 函数</a>
                 
                 <span class="summary"> —— 递归，f(n) = f(n-1) * 10 + int(str[n]), 边界 f(0) = int(str[0]), f(n) 表示 str[0, n] (闭区间)转化后的整数。</span>
@@ -68,8 +78,8 @@
         </div>
         
         <div class="row entry-overview">
-            <div class="col-sm-4 col-3 date">2019年8月28日</div>
-            <div class="col-sm-8 col-9 detail">
+            <div class="col-sm-3 col-2 date">2019年8月28日</div>
+            <div class="col-sm-8 col-10 detail">
                 <a href="/leetcode/100/146-lru-cache.html">如何实现一个 LRU Cache？</a>
                 
                 <span class="summary"> —— 哈希表，O(1) 的 get 和 set；双向链表，有序，O(1) 的 delete 和 insert。</span>
@@ -78,8 +88,8 @@
         </div>
         
         <div class="row entry-overview">
-            <div class="col-sm-4 col-3 date">2019年8月21日</div>
-            <div class="col-sm-8 col-9 detail">
+            <div class="col-sm-3 col-2 date">2019年8月21日</div>
+            <div class="col-sm-8 col-10 detail">
                 <a href="/leetcode/100/141-linked-list-cycle.html">链表是否存在环？</a>
                 
                 <span class="summary"> —— 思路，使用两个指针，一个每次走两步，一个每次走一步，如果一段时间之后这两个指针能重合，那么链表肯定存在环了。但是，存在环两个指针就一定会相遇吗？</span>
@@ -88,8 +98,8 @@
         </div>
         
         <div class="row entry-overview">
-            <div class="col-sm-4 col-3 date">2019年8月20日</div>
-            <div class="col-sm-8 col-9 detail">
+            <div class="col-sm-3 col-2 date">2019年8月20日</div>
+            <div class="col-sm-8 col-10 detail">
                 <a href="/leetcode/200/206-reverse-linked-list.html">反转链表</a>
                 
                 <span class="summary"> —— 思路一，利用栈先进后出特点；思路二，加一个头节点，遍历链表，将链表节点插入到头节点的下一个节点处；思路三，双指针。</span>
@@ -103,7 +113,7 @@
 
 
 
-<div class="container footer">
+<div class="footer">
     <p>&copy; Copyright 2020 by <a href="http://github.com/jachinlin">Jachin Lin</a>.</p>
     <p>
         Contact me via
@@ -115,13 +125,12 @@
         
     </p>
     <p>
-        Subscribe <a href="/feed.atom" rel="alternate" title="None">to Atom feed</a>
+        Subscribe to <a href="/feed.atom" rel="alternate" title="None"> Atom feed</a>
     </p>
 </div>
 
-
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</div>
 </body>
 </html>
