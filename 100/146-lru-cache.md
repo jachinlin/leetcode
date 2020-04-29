@@ -4,6 +4,9 @@ author: Jachin Lin
 pub_date: 2019-08-28
 summary: 哈希表，O(1) 的 get 和 set；双向链表，有序，O(1) 的 delete 和 insert。
 difficulty: Medium
+tags:
+    - 双向链表
+    - 哈希表
 ---
 
 ## 描述
