@@ -4,6 +4,7 @@ author: Jachin Lin
 pub_date: 2019-08-21
 tags:
     - 链表
+    - Easy
 difficulty: Easy
 summary: 思路，使用两个指针，一个每次走两步，一个每次走一步，如果一段时间之后这两个指针能重合，那么链表肯定存在环了。但是，存在环两个指针就一定会相遇吗？
 ---

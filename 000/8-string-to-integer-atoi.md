@@ -4,6 +4,8 @@ author: Jachin Lin
 pub_date: 2019-09-01
 summary: 递归，f(n) = f(n-1) * 10 + int(str[n]), 边界 f(0) = int(str[0]), f(n) 表示 str[0, n] (闭区间)转化后的整数。
 difficulty: Medium
+tags:
+    - Medium
 ---
 
 ## 描述

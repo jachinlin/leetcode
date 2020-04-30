@@ -7,6 +7,7 @@ difficulty: Medium
 tags:
     - 双向链表
     - 哈希表
+    - Medium
 ---
 
 ## 描述

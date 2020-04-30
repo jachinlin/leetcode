@@ -6,6 +6,7 @@ difficulty: Medium
 summary: 在「删除排序数组中的重复元素」解法的基础上，增加一个变量表示目标数组中末尾元素已经出现的次数。
 tags:
     - 数组
+    - Medium
 ---
 
 ## 描述
