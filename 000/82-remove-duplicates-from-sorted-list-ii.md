@@ -5,8 +5,8 @@ pub_date: 2019-09-28
 difficulty: Medium
 summary: 递归，需要分 head.val == next.val 和 head.val != next.val 两种情况考虑。
 tags:
-    - 数组
-    - Easy
+    - 链表
+    - Medium
 ---
 
 ## 描述
