@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>重排链表 | 重排链表</title>
+    <link rel="shortcut icon" href="/leetcode/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" media="screen">
+    <link rel="stylesheet" href="/leetcode/static/style.css" type="text/css">
+    <link href="/feed.atom" rel="alternate" title=" 重排链表" type="application/atom+xml">
+    
+    <link rel="stylesheet" href="/leetcode/static/pygments.css"  type="text/css">
+    
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?7972bc564f84e320d4f261fe1ada61da";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+
+<body>
+<div class="container box">
+
+
+
+<div>
+        <h1>重排链表</h1>
+
+    <h2>描述</h2>
+<p><a href="https://leetcode.com/problems/reorder-list/">143. Reorder List</a></p>
+<p>Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…</p>
+<p>You may not modify the values in the list's nodes, only nodes itself may be changed.</p>
+<h2>思路</h2>
+<p>找到中间节点，断开成两个新的链表，翻转后半截的链表，然后合并这两个两个链表。</p>
+<h2>解答</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Definition for singly-linked list.</span>
+<span class="k">class</span> <span class="nc">ListNode</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">next</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="nb">next</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">_merge2List</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list1</span><span class="p">,</span> <span class="n">list2</span><span class="p">):</span>
+        <span class="n">dummy</span> <span class="o">=</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">ListNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">list1</span> <span class="ow">and</span> <span class="n">list2</span><span class="p">:</span>
+            <span class="n">tmp1</span><span class="p">,</span> <span class="n">tmp2</span> <span class="o">=</span> <span class="n">list1</span><span class="p">,</span> <span class="n">list2</span>
+            <span class="n">list1</span><span class="p">,</span> <span class="n">list2</span> <span class="o">=</span> <span class="n">list1</span><span class="o">.</span><span class="n">next</span><span class="p">,</span> <span class="n">list2</span><span class="o">.</span><span class="n">next</span>
+            <span class="n">tail</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">tmp1</span>
+            <span class="n">tmp1</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">tmp2</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">tmp2</span>
+        <span class="n">tail</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">list1</span> <span class="ow">or</span> <span class="n">list2</span>
+
+        <span class="k">return</span> <span class="n">dummy</span><span class="o">.</span><span class="n">next</span>
+
+    <span class="k">def</span> <span class="nf">_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="n">ListNode</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">head</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">head</span>
+        <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">head</span><span class="p">,</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">while</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">next_</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">next</span>
+            <span class="n">q</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">p</span>
+            <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">,</span> <span class="n">next_</span>
+        <span class="k">return</span> <span class="n">p</span>
+
+    <span class="k">def</span> <span class="nf">reorderList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="n">ListNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Do not return anything, modify head in-place instead.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">head</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">head</span><span class="p">,</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">q</span> <span class="ow">and</span> <span class="n">q</span><span class="o">.</span><span class="n">next</span> <span class="ow">and</span> <span class="n">q</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">next</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="n">head2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">next</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_merge2List</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">head2</span><span class="p">)</span>
+</code></pre></div>
+
+    
+        <p class=tags>标签：
+        <a href="/leetcode/tags/Medium/">Medium</a>、 <a href="/leetcode/tags/%E9%93%BE%E8%A1%A8/">链表</a>
+    
+
+    
+</div>
+
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
