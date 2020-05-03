@@ -49,6 +49,26 @@
     <div class="entry-wrapper">
         
         <div class="row entry-overview">
+            <div class="col-sm-3 col-2 date">2020年2月20日</div>
+            <div class="col-sm-8 col-10 detail">
+                <a href="/leetcode/000/25-reverse-nodes-in-k-group.html">k 个一组翻转链表</a>
+                
+                <span class="summary"> —— 递归，f(n) = reverse(link[1, k]) + f(n-k)</span>
+                
+            </div>
+        </div>
+        
+        <div class="row entry-overview">
+            <div class="col-sm-3 col-2 date">2020年1月1日</div>
+            <div class="col-sm-8 col-10 detail">
+                <a href="/leetcode/000/24-swap-nodes-in-pairs.html">两两交换链表节点</a>
+                
+                <span class="summary"> —— 双指针，q 在前，p 在后，交换 p、q；然后 p、 q 一起向后走两步，交换 p、q；重复操作至到 q 走到链表末尾。</span>
+                
+            </div>
+        </div>
+        
+        <div class="row entry-overview">
             <div class="col-sm-3 col-2 date">2019年12月21日</div>
             <div class="col-sm-8 col-10 detail">
                 <a href="/leetcode/000/19-remove-nth-node-from-end-of-list.html">删除链表倒数第 n 个节点</a>
@@ -124,26 +144,6 @@
                 <a href="/leetcode/000/26-remove-duplicates-from-sorted-array.html">删除排序数组中的重复元素</a>
                 
                 <span class="summary"> —— 目标数组复用原数组空间</span>
-                
-            </div>
-        </div>
-        
-        <div class="row entry-overview">
-            <div class="col-sm-3 col-2 date">2019年9月1日</div>
-            <div class="col-sm-8 col-10 detail">
-                <a href="/leetcode/000/8-string-to-integer-atoi.html">实现 atoi 函数</a>
-                
-                <span class="summary"> —— 递归，f(n) = f(n-1) * 10 + int(str[n]), 边界 f(0) = int(str[0]), f(n) 表示 str[0, n] (闭区间)转化后的整数。</span>
-                
-            </div>
-        </div>
-        
-        <div class="row entry-overview">
-            <div class="col-sm-3 col-2 date">2019年8月28日</div>
-            <div class="col-sm-8 col-10 detail">
-                <a href="/leetcode/100/146-lru-cache.html">如何实现一个 LRU Cache？</a>
-                
-                <span class="summary"> —— 哈希表，O(1) 的 get 和 set；双向链表，有序，O(1) 的 delete 和 insert。</span>
                 
             </div>
         </div>
