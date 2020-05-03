@@ -41,7 +41,7 @@
 <h2>思路</h2>
 <p>忽略随机指针的存在，复制一个普通链表非常简单。现在考虑随机指针，在复制普通链表的基础上，我们需要更新新链表中的随机指针，这个的关键在于找到 <strong>旧节点到新节点的映射关系</strong>。</p>
 <p>简单的做法就是，把旧节点到新节点的映射关系存储在一个哈希表中，下边解法就是根据这个思路来的。</p>
-<p>更高级的做法是，利用 <strong>影子节点</strong> ，将映射关系直接存储在新旧链表中。</p>
+<p>更高级的做法是，利用 <strong>影子节点</strong> ，将映射关系直接存储在新旧链表中，这样可以避免哈希表带来的 O(n) 额外空间。</p>
 <h2>解答</h2>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Definition for a Node.</span>
 <span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
