@@ -6,7 +6,7 @@ tags:
     - 链表
     - Medium
 difficulty: Medium
-summary: 对半分成两个链表，翻转第二个链表，然后合并这两个链表。
+summary: 原链表对半分成两个链表，反转第二个链表，然后合并这两个链表。
 ---
 
 ## 描述 
@@ -19,7 +19,7 @@ reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
 You may not modify the values in the list's nodes, only nodes itself may be changed.
 ## 思路
 
-找到中间节点，断开成两个新的链表，翻转后半截的链表，然后合并这两个两个链表。
+找到中间节点，断开成两个新的链表，反转后半截的链表，然后合并这两个两个链表。
 
 ## 解答
 
