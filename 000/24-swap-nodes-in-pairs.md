@@ -1,7 +1,7 @@
 ---
 title: 两两交换链表节点
 author: Jachin Lin
-pub_date: 2019-01-01
+pub_date: 2020-01-01
 difficulty: Medium
 summary: 双指针，q 在前，p 在后，交换 p、q；然后 p、 q 一起向后走两步，交换 p、q；重复操作至到 q 走到链表末尾。
 tags:
@@ -14,7 +14,7 @@ tags:
 
 Given a linked list, swap every two adjacent nodes and return its head.
 
-You may not modify the values in the list's nodes, only nodes itself may be changed.## 思路
+You may not modify the values in the list's nodes, only nodes itself may be changed.
 
 ## 思路
 双指针，q 在前，p 在后，交换 p、q；然后 p、 q 一起向后走两步，交换 p、q；重复操作至到 q 走到链表末尾。
