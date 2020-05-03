@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>复制带有随机指针的链表 | 复制带有随机指针的链表</title>
+    <link rel="shortcut icon" href="/leetcode/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" media="screen">
+    <link rel="stylesheet" href="/leetcode/static/style.css" type="text/css">
+    <link href="/feed.atom" rel="alternate" title=" 复制带有随机指针的链表" type="application/atom+xml">
+    
+    <link rel="stylesheet" href="/leetcode/static/pygments.css"  type="text/css">
+    
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?7972bc564f84e320d4f261fe1ada61da";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+
+<body>
+<div class="container box">
+
+
+
+<div>
+        <h1>复制带有随机指针的链表</h1>
+
+    <h2>描述</h2>
+<p><a href="https://leetcode.com/problems/copy-list-with-random-pointer/">138. Copy List with Random Pointer</a></p>
+<p>A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.</p>
+<p>Return a deep copy of the list.</p>
+<p><img alt="138. Copy List with Random Pointer" src="https://assets.leetcode.com/uploads/2019/12/18/e1.png"></p>
+<h2>思路</h2>
+<p>忽略随机指针的存在，复制一个普通链表非常简单。现在考虑随机指针，在复制普通链表的基础上，我们需要更新新链表中的随机指针，这个的关键在于找到 <strong>旧节点到新节点的映射关系</strong>。</p>
+<p>简单的做法就是，把旧节点到新节点的映射关系存储在一个哈希表中，下边解法就是根据这个思路来的。</p>
+<p>更高级的做法是，利用 <strong>影子节点</strong> ，将映射关系直接存储在新旧链表中。</p>
+<h2>解答</h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Definition for a Node.</span>
+<span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">random</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="nb">next</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random</span> <span class="o">=</span> <span class="n">random</span>
+
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">copyRandomList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Node&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">head</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">node_map</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># old_node -&gt; new_node</span>
+        <span class="n">new_head</span> <span class="o">=</span> <span class="n">new_tail</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">old_node</span> <span class="o">=</span> <span class="n">head</span>
+        <span class="k">while</span> <span class="n">old_node</span><span class="p">:</span>
+            <span class="n">new_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">old_node</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">random</span> <span class="o">=</span> <span class="n">old_node</span><span class="o">.</span><span class="n">random</span>  <span class="c1"># 复制旧的随机指针</span>
+            <span class="n">new_tail</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">new_node</span>
+            <span class="n">new_tail</span> <span class="o">=</span> <span class="n">new_tail</span><span class="o">.</span><span class="n">next</span>
+            <span class="n">node_map</span><span class="p">[</span><span class="n">old_node</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_node</span>
+            <span class="n">old_node</span> <span class="o">=</span> <span class="n">old_node</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="n">new_node</span> <span class="o">=</span> <span class="n">new_head</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">new_node</span><span class="p">:</span>
+            <span class="n">new_node</span><span class="o">.</span><span class="n">random</span> <span class="o">=</span> <span class="n">node_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">new_node</span><span class="o">.</span><span class="n">random</span><span class="p">)</span>  <span class="c1"># 更新随机指针</span>
+            <span class="n">new_node</span> <span class="o">=</span> <span class="n">new_node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">new_head</span><span class="o">.</span><span class="n">next</span>
+</code></pre></div>
+
+    
+        <p class=tags>标签：
+        <a href="/leetcode/tags/Medium/">Medium</a>、 <a href="/leetcode/tags/%E9%93%BE%E8%A1%A8/">链表</a>
+    
+
+    
+</div>
+
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
