@@ -9,3 +9,6 @@ modules:
 github: jachinlin
 email: linjx1000+github@gmail.com
 baidu_tongji: 7972bc564f84e320d4f261fe1ada61da
+nav:
+  - title: 博客
+    link: https://jachinlin.github.io
