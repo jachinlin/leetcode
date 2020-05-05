@@ -3,7 +3,7 @@ title: 最小栈
 author: Jachin Lin
 pub_date: 2020-04-28
 tags:
-    - 链表
+    - 栈
     - Easy
 difficulty: Easy
 summary: 使用辅助栈存储原始栈每个状态的最小值。
