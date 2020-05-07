@@ -1,24 +1,23 @@
 ---
-title: 二叉树层次遍历
+title: 二叉树层次遍历 II
 author: Jachin Lin
 pub_date: 2020-05-07
 summary: 使用两个队列，一个队列存放当前层的节点，一个队列存放下一层的节点。
-difficulty: Medium
+difficulty: Easy
 tags:
     - 二叉树
     - 队列
-    - Medium
+    - Easy
 ---
 
 ## 描述
 
-[102. Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/)
+[107. Binary Tree Level Order Traversal II](https://leetcode.com/problems/binary-tree-level-order-traversal-ii/)
 
-Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
-
+Given a binary tree, return the bottom-up level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
 ## 思路
 
-使用两个队列，一个队列存放当前层的节点，一个队列存放下一层的节点。只使用一个队列也是可以的，不过队列元素需要改为 `(node, level)` 二元组。
+思路同 [二叉树层次遍历](./102-binary-tree-level-order-traversal.html)，最后结果反转下就可以了。
 
 ## 解答
 
@@ -33,7 +32,7 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
         if not root:
             return []
         result = []
@@ -48,7 +47,7 @@ class Solution:
                     q_tmp.append(node.left)
                 if node.right:
                     q_tmp.append(node.right)
-            result.append(this_result)
+            result.insert(0, this_result)
             q, q_tmp = q_tmp, q
         return result
 ```
