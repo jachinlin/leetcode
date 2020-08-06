@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>找出二叉搜索树中重复次数最多的元素 | 每日一 Code</title>
+    <link rel="shortcut icon" href="/leetcode/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" media="screen">
+    <link rel="stylesheet" href="/leetcode/static/style.css" type="text/css">
+    <link href="/feed.atom" rel="alternate" title=" 找出二叉搜索树中重复次数最多的元素" type="application/atom+xml">
+    
+    <link rel="stylesheet" href="/leetcode/static/pygments.css"  type="text/css">
+    
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?7972bc564f84e320d4f261fe1ada61da";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+
+<body>
+<div class="container box">
+
+
+
+<div>
+        <h1>找出二叉搜索树中重复次数最多的元素</h1>
+
+    <h2>描述</h2>
+<p><a href="https://leetcode.com/problems/find-mode-in-binary-search-tree/">501. Find Mode in Binary Search Tree</a></p>
+<p>Given a binary search tree (BST) with duplicates, find all the mode(s) (the most frequently occurred element) in the given BST.</p>
+<h2>思路</h2>
+<p>二叉搜索树的一个特点就是，它的中序遍历是有序的，这样我们就可以把二叉搜索树当作有序数组来对待。
+对于一个有序数组，找出重复次数最多的元素，如果只有一个结果的话，方法很简单，只需要使用以下四个变量，然后从左到右遍历一遍数组，在遍历过程更新这四个变量：</p>
+<ul>
+<li>curCnt: 当前元素出现的次数</li>
+<li>preVal: 上一个元素</li>
+<li>maxVal: 已经遍历过的元素中出现次数最多的元素</li>
+<li>maxCnt: maxVal 出现的次数</li>
+</ul>
+<p>遍历完成后，maxVal 就是重复次数最多的元素，macCnt 就是重复的次数。</p>
+<p>如果有多个元素重复次数是一样的且大于其他元素的，要找出这些元素的话，只需要在上面的基础上，
+把变量 maxVal 改为 maxValList，更新 maxValList 的逻辑需要做一些调整：</p>
+<p>如果 curCnt == maxCnt，则把 preVal 加入到 maxValList，如果 curCnt &gt; maxCnt，则清空 maxValList，再把 preVal 加入到 maxValList。</p>
+<p>对于搜索二叉树，思路同有序数组，只需要把从左到右的数组遍历，改为中序的二叉树遍历。</p>
+<h2>解答</h2>
+<div class="codehilite"><pre><span></span><code><span class="o">//</span> <span class="n">Definition</span> <span class="k">for</span> <span class="n">a</span> <span class="nb">binary</span> <span class="n">tree</span> <span class="n">node</span><span class="p">.</span>
+<span class="k">type</span> <span class="n">TreeNode</span> <span class="n">struct</span> <span class="err">{</span>
+    <span class="n">Val</span> <span class="nb">int</span>
+    <span class="k">Left</span> <span class="o">*</span><span class="n">TreeNode</span>
+    <span class="k">Right</span> <span class="o">*</span><span class="n">TreeNode</span>
+<span class="err">}</span>
+
+
+<span class="n">func</span> <span class="n">inOrderTraversal</span><span class="p">(</span><span class="n">tree</span> <span class="o">*</span><span class="n">TreeNode</span><span class="p">,</span> <span class="n">visit</span> <span class="n">func</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">TreeNode</span><span class="p">))</span> <span class="err">{</span>
+    <span class="k">if</span> <span class="n">tree</span> <span class="o">==</span> <span class="n">nil</span> <span class="err">{</span>
+        <span class="k">return</span>
+    <span class="err">}</span>
+    <span class="n">inOrderTraversal</span><span class="p">(</span><span class="n">tree</span><span class="p">.</span><span class="k">Left</span><span class="p">,</span> <span class="n">visit</span><span class="p">)</span>
+    <span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+    <span class="n">inOrderTraversal</span><span class="p">(</span><span class="n">tree</span><span class="p">.</span><span class="k">Right</span><span class="p">,</span> <span class="n">visit</span><span class="p">)</span>
+<span class="err">}</span>
+
+<span class="n">func</span> <span class="n">findMode</span><span class="p">(</span><span class="n">root</span> <span class="o">*</span><span class="n">TreeNode</span><span class="p">)</span> <span class="p">[]</span><span class="nb">int</span> <span class="err">{</span>
+    <span class="n">ans</span> <span class="p">:</span><span class="o">=</span> <span class="n">make</span><span class="p">([]</span><span class="nb">int</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">root</span> <span class="o">==</span> <span class="n">nil</span> <span class="err">{</span>
+        <span class="k">return</span> <span class="n">ans</span>
+    <span class="err">}</span>
+    <span class="n">curCnt</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+    <span class="n">preVal</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+    <span class="n">maxCnt</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">visit</span> <span class="p">:</span><span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">TreeNode</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">if</span> <span class="n">node</span><span class="p">.</span><span class="n">Val</span> <span class="o">==</span> <span class="n">preVal</span> <span class="err">{</span>
+            <span class="n">curCnt</span><span class="o">++</span>
+        <span class="err">}</span> <span class="k">else</span> <span class="err">{</span>
+            <span class="k">if</span> <span class="n">curCnt</span> <span class="o">&gt;=</span> <span class="n">maxCnt</span> <span class="err">{</span>
+                <span class="k">if</span> <span class="n">curCnt</span> <span class="o">&gt;</span> <span class="n">maxCnt</span> <span class="err">{</span>
+                    <span class="n">ans</span> <span class="o">=</span> <span class="n">ans</span><span class="p">[:</span><span class="mi">0</span><span class="p">]</span>
+                <span class="err">}</span>
+                <span class="n">maxCnt</span> <span class="o">=</span> <span class="n">curCnt</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">preVal</span><span class="p">)</span>
+            <span class="err">}</span>
+            <span class="n">curCnt</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">preVal</span> <span class="o">=</span> <span class="n">node</span><span class="p">.</span><span class="n">Val</span>
+        <span class="err">}</span>
+
+    <span class="err">}</span>
+    <span class="n">inOrderTraversal</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">visit</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">curCnt</span> <span class="o">&gt;=</span> <span class="n">maxCnt</span> <span class="err">{</span>
+        <span class="k">if</span> <span class="n">curCnt</span> <span class="o">&gt;</span> <span class="n">maxCnt</span> <span class="err">{</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">ans</span><span class="p">[:</span><span class="mi">0</span><span class="p">]</span>
+        <span class="err">}</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">preVal</span><span class="p">)</span>
+    <span class="err">}</span>
+    <span class="k">return</span> <span class="n">ans</span>
+<span class="err">}</span>
+</code></pre></div>
+
+
+<p>ans 即为 maxValList。</p>
+
+    
+        <p class=tags>标签：
+        <a href="/leetcode/tags/Easy/">Easy</a>、 <a href="/leetcode/tags/Golang/">Golang</a>、 <a href="/leetcode/tags/%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/">中序遍历</a>
+    
+
+    
+        <script src="https://utteranc.es/client.js"
+    repo="jachinlin/leetcode"
+    issue-term="title"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+</script>
+
+    
+</div>
+
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
